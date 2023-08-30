@@ -35,7 +35,6 @@ module type S = sig
   (** [greedy] defaults to true. If false, the regexp will prefer not matching. *)
   val optional : ?greedy:bool -> 'a t -> 'a option t
 
-
   (** [repeat ~min ~max t] constructs the regex [t{min,max}]. [min] defaults to [0] and
       [max] defaults to [None] (unbounded), so that just plain [repeat t] is equivalent
       to [t*].

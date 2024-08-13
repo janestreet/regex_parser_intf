@@ -4,11 +4,20 @@ module type S = sig
   (** A value of type ['a t] is a regex that parses ['a]s. *)
   type 'a t
 
-  (** [case_sensitive] defaults to [true]. *)
-  val compile : ?case_sensitive:bool -> 'a t -> (string -> 'a option) Staged.t
+  (** A regex must be compiled before being run against a string. *)
+  module Compiled : sig
+    type 'a t
+  end
 
-  val run : ?case_sensitive:bool -> 'a t -> string -> 'a option
-  val matches : ?case_sensitive:bool -> 'a t -> string -> bool
+  (** [case_sensitive] defaults to [true]. *)
+  val compile : ?case_sensitive:bool -> 'a t -> 'a Compiled.t
+
+  (** Entry points to match using compiled parser. *)
+
+  val run : 'a Compiled.t -> string -> 'a option
+  val matches : 'a Compiled.t -> string -> bool
+  val run_all : 'a Compiled.t -> string -> 'a list
+  val run_and_split : 'a Compiled.t -> string -> ('a, string) Either.t list
 
   (** The applicative interface provides sequencing, e.g. [both a b] is a regex that
       parses an [a] followed by a [b] and returns both results in a pair. *)

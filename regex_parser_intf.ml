@@ -24,9 +24,9 @@ module type S = sig
   include Applicative.S with type 'a t := 'a t
 
   (** [ignore_m t] is a regex which matches the same strings that [t] matches, but doesn't
-      call functions on the captured submatches. Particularly, something like [ignore (map
-      (string "x") ~f:Int.of_string)] won't raise an exception, because the int conversion
-      is never attempted.  *)
+      call functions on the captured submatches. Particularly, something like
+      [ignore (map (string "x") ~f:Int.of_string)] won't raise an exception, because the
+      int conversion is never attempted. *)
   val ignore_m : _ t -> unit t
 
   (** [capture t] returns the string matched by [t] *)
@@ -45,8 +45,8 @@ module type S = sig
   val optional : ?greedy:bool -> 'a t -> 'a option t
 
   (** [repeat ~min ~max t] constructs the regex [t{min,max}]. [min] defaults to [0] and
-      [max] defaults to [None] (unbounded), so that just plain [repeat t] is equivalent
-      to [t*].
+      [max] defaults to [None] (unbounded), so that just plain [repeat t] is equivalent to
+      [t*].
 
       It would be better for [repeat] to be ['a t -> 'a list t], but the Re2 library, for
       example, doesn't give you access to repeated submatches like that. Hence, [repeat]
@@ -103,10 +103,7 @@ module type S = sig
   module Decimal : sig
     val digit : int t
 
-    (** optional sign symbol:
-        "+" or "" mean 1
-        "-" means -1
-    *)
+    (** optional sign symbol: "+" or "" mean 1 "-" means -1 *)
     val sign : int t
 
     val unsigned : int t
